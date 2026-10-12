@@ -1,0 +1,65 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env/
+
+# Secrets, credentials, and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+secrets.yml
+secrets.yaml
+
+# Local databases and database artifacts
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Logs and runtime files
+*.log
+logs/
+*.pid
+
+# Downloaded datasets and generated data
+data/
+datasets/
+downloads/
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.pkl
+*.pickle
+
+# Build and packaging output
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE and OS files
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db

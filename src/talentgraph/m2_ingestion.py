@@ -94,6 +94,7 @@ def _read_csv_records(spark: SparkSession, input_csv: Path) -> DataFrame:
                 records.append((row[:len(SOURCE_COLUMNS)] +
                                 [None] * max(0, len(SOURCE_COLUMNS) - len(row)) +
                                 ["column_count_mismatch"]))
+    # This is a sampled-CSV processing index, not the archive's logical row number.
     return (spark.createDataFrame(records, schema=RAW_SCHEMA)
             .withColumn("_source_row_number", F.monotonically_increasing_id()))
 

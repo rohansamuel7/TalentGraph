@@ -1,5 +1,7 @@
 # TalentGraph Project Specification
 
+**Historical M0 scope.** The application now uses FastAPI and Next.js instead of Streamlit; Airflow scheduling remains future work. For implemented behavior, consult [Engineering overview](PROJECT_DOCUMENTATION.md) and [Data pipeline](DATA_PIPELINE.md).
+
 ## Problem and objectives
 Recruiting data is fragmented across job postings, skills, candidate profiles, and taxonomies. TalentGraph will create a small, transparent analytical system that aligns these entities and explains why a candidate matches a job.
 

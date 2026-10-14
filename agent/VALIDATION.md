@@ -1,5 +1,106 @@
 # Validation Plan
 
+## M8-RELEASE-02 publication checks — 2026-10-13
+
+- Publication target: `main` → `https://github.com/rohansamuel7/TalentGraph.git` (`origin`).
+- Owner browser confirmation: light mode and a narrow viewport were checked. Light mode looks somewhat unusual to the owner, who accepted that appearance because dark mode is intended for use. This is an accepted presentation caveat, not an independent visual pass by the agent.
+- Staging scope: only public source, docs, requirements, frontend lockfile, screenshots, and background are intended. Final staged path, content, README-link, and whitespace checks are required before commit.
+
+## M8-RELEASE-01 validation — 2026-10-13
+
+- Git: `main` with `origin` configured; no staged files; 96 tracked or non-ignored candidate files; no excluded data, databases, private guide, dependencies, build output, or local Node binaries among them. `git diff --check`: PASS.
+- Python: complete `unittest` suite passed 44 tests, 0 failures, 0 skips, including Spark, outside the restricted socket sandbox. Frontend: TypeScript PASS, ESLint PASS, Next.js production build PASS (7 static pages); no frontend test script is configured.
+- API: health, overview, jobs, candidates, matches, graph neighborhood, and skill frequency returned HTTP 200 in a read-only test client. Overview returned 1,500 sampled jobs and 300 synthetic candidates; coverage groups were 80 required, 7 preferred-only, 44 non-required, and 1,369 insufficient. SQL and Python frequencies were 42 and 35 distinct jobs.
+- Assets: four accurately named screenshots and the background are present with distinct hashes and reasonable PNG sizes (0.7–2.1 MB). README relative screenshot links resolve. Screenshots show dark mode and no obvious credentials. Current light-mode contrast and responsive crop were not rechecked in a browser.
+- Database SHA-256: production `663dbe12cde5231e4d1dc65a880041ecaffe840469a0efcf4a0c8db5202dc397`; repository processed `b2314da8faf5aea8ad8643a1790c96ce7b116bb0ce544473883f45e37f889160`. Both match the expected values after checks.
+- Release follow-up: the user explicitly confirmed permission for this repository's use of the artwork; treat the prior licensing gate as resolved on that basis. The audit is **READY** with a documented caveat that fresh light-mode and responsive browser checks were not performed. No commit, push, or deployment performed.
+
+## M8-DOCS-02 validation — 2026-10-13
+
+- Visually mapped each original screenshot to its destination name and inspected for obvious private information; none was observed.
+- Original and destination bytes matched for all four PNGs (SHA-256 comparison). Their dimensions were verified; all four README image links resolve to copied files.
+- `git diff --check`: PASS. No application code or data was changed.
+
+## M8-DOCS-01 validation — 2026-10-13
+
+- Documentation: four requested files created; 24 local Markdown links checked with no missing targets; historical claims cross-checked against source and milestone records.
+- Python dependencies: all eight exact pins across `requirements.txt` and its included backend file matched installed distributions. Pandas and PyArrow are installed but have no direct application imports; pytest, Plotly, Streamlit, and Airflow are not installed in the working virtual environment.
+- Syntax and frontend: modified Python files parsed successfully; TypeScript and ESLint passed. No frontend production build or pipeline regeneration was run.
+- Regression: restricted-shell unittest discovery ran 44 tests with one Spark startup error caused by Java socket denial; the approved unrestricted rerun passed all 44 in 44.215 seconds. The failure remains recorded as an environment limitation.
+- Database: production `/home/developer/talentgraph_data/talentgraph.duckdb` SHA-256 remained `663dbe12cde5231e4d1dc65a880041ecaffe840469a0efcf4a0c8db5202dc397`; repository `data/processed/talentgraph.duckdb` remained `b2314da8faf5aea8ad8643a1790c96ce7b116bb0ce544473883f45e37f889160`. Neither was opened for writing.
+- `git diff --check`: PASS. Existing unrelated worktree changes and untracked frontend/docs files were preserved; no commit or push.
+
+## M8-VISUAL-02 validation — 2026-10-13
+
+- Frontend TypeScript: PASS. ESLint: PASS.
+- Browser visual review: NOT RUN; inspect sidebar image crop and navigation contrast in light and dark themes.
+
+## M8-VISUAL-01 validation — 2026-10-13
+
+- Inspected the final 1854 × 848 PNG: rocket, rider, stars, clouds, and planet remain; page text and controls are absent.
+- Frontend TypeScript and ESLint: PASS using the repository's user-scoped Node toolchain. `git diff --check`: PASS.
+- Browser visual review and production build: NOT RUN for this CSS and static-asset change. Light/dark opacity and responsive crop should be checked in the browser.
+
+## M8-POLISH-04 validation
+
+- Development server check: no active Next.js dev server was present before production build.
+- TypeScript: PASS.
+- ESLint: PASS.
+- Production build: PASS — Next.js compiled and generated all seven static pages.
+- Dedicated frontend test suite: NOT CONFIGURED in `frontend/package.json`; no new dependency or test framework was added.
+- `git diff --check`: PASS.
+- Split selection/filter behavior: code-validated; result selection uses semantic buttons with `aria-pressed` and a visible focus indicator.
+- Graph button: explicit scoped `.show-more` CSS fixes the missing-style/flex-stretch root cause; browser rendering remains manual.
+- Browser interaction/viewport checks: unavailable here; verify at 1366×768 and 1920×1080, including keyboard selection and list/detail scrolling.
+
+## M8-POLISH-03 validation
+
+- TypeScript: PASS.
+- ESLint: PASS.
+- Production build: PASS — all seven static pages generated.
+- Graph labels: source confirms React Flow preferred text labels removed; accessible edge descriptions and Required/Preferred legend remain. Visual check requires browser.
+- Split-view selection and responsive layout: code/build validated; browser interaction unavailable in this environment.
+- `git diff --check`: PASS.
+
+## M8-POLISH-02 validation
+
+- Font inspection: no Avenir or local Lato files available; Lato-first CSS stack uses Windows/system fallbacks and no runtime font network dependency.
+- TypeScript: PASS.
+- ESLint: PASS.
+- Production build: PASS — all seven static pages generated successfully.
+- Focused FastAPI regression: PASS — 8/8 tests.
+- `git diff --check`: PASS.
+- Matching and graph backend semantics: unchanged; existing API contracts remain in use.
+- Browser visual verification: NOT RUN — browser automation is unavailable; manually inspect both themes at 1366x768 and 1920x1080.
+
+## M8-MIGRATE-06 validation
+
+- Browser tooling: NOT AVAILABLE — no Playwright, Chromium, Chrome, Firefox, or Puppeteer executable was found; no installation attempted.
+- Frontend routes: PASS by production build — `/network`, `/matches`, `/insights`, and the redirect route were statically generated.
+- Backend endpoint audit: PASS — health, overview, jobs, job detail, candidates, candidate detail, matches, and graph neighborhood direct calls returned valid typed data.
+- Coverage: PASS — 80 required, 7 preferred-only, 44 non-required-only, 1,369 no eligible technical evidence; 1,420 lack required evidence.
+- Representative matches: PASS — candidates `synthetic:candidate:000001`, `000076`, and `000226` returned real comparison rows.
+- TypeScript: PASS; ESLint: PASS; production build: PASS; `git diff --check`: PASS.
+- Full Python regression: 42/43 passed; one existing Spark test is environment-blocked by Java socket creation permissions, not application behavior.
+- DuckDB SHA-256 observed unchanged during this task: `663dbe12cde5231e4d1dc65a880041ecaffe840469a0efcf4a0c8db5202dc397`.
+- Manual browser checks remain: 1366x768 and 1920x1080 at 100% zoom; route navigation, graph interactions, match filtering/expansion, light/dark persistence, and console inspection.
+
+## M8-MIGRATE-05A validation
+
+- Root cause: the pre-hydration theme script intentionally added `data-theme` before React hydration, creating the reported root attribute mismatch.
+- Fix: narrow `suppressHydrationWarning` on `<html>` only; the script remains responsible for no-flash localStorage/system initialization, while React component initial state remains deterministic.
+- Browser automation: unavailable; saved light/dark, system dark, toggle, refresh, and extension-isolation checks require manual browser verification.
+
+## M8-MIGRATE-05 validation
+
+- Browser automation: unavailable; light/dark visual and interaction checks remain manual at supported desktop sizes.
+- Frontend TypeScript: PASS.
+- Frontend ESLint: PASS.
+- Next.js production build: PASS.
+- Full Python regression: 42/43 passed; 1 Spark framing test was blocked by restricted-shell Java socket creation (`Operation not permitted`).
+- DuckDB checksum observed: `663dbe12cde5231e4d1dc65a880041ecaffe840469a0efcf4a0c8db5202dc397`; no database write was performed in this task.
+- `git diff --check`: PASS.
+
 ## QA-FIX-01 validation
 
 - Semantic classification: `PASS` — technical competency 15, functional skill 25, industry/occupational category 9, ambiguous/other 1; all 50 entries classified independently of M4 operational categories.
@@ -36,6 +137,82 @@
 - Diagnostic counts: `PASS` — before 403 requirement-only relationships; after 582 classified mentions: required 322, preferred 42, mentioned 183, negated 5, ambiguous 30.
 - Tests: `PASS` — QA-FIX-04 phrase tests 6/6; full M1–M7 regression 24/24.
 - Accuracy claims: `NOT RUN` — no independently confirmed human labels exist, so precision/recall are not reported.
+
+## QA-FIX-05 validation
+
+- Worksheet reconciliation: `PASS` — all 25 source records are present and uniquely identified by job key plus competency display value.
+- Updated extraction: `PASS` — each row was re-evaluated against the QA-FIX-04 extractor and includes the updated decision, class, and bounded evidence snippet.
+- Human-label preservation: `PASS` — `confirmed_label` and `reviewer_rationale` match the original worksheet exactly; no proposed labels were treated as confirmed.
+- Reconciliation summary: `PASS` — 3 previously missed explicit requirements are identified; required/preferred corrections, incidental/ambiguous cases, and remaining review cases are documented.
+- Targeted QA tests: `PASS` — 6/6 `test_qa_fix_extraction` tests.
+- Full regression: `PASS` — 24/24 tests under the approved local Spark environment. The restricted shell attempt was environment-limited before Spark test code ran.
+- Production DuckDB: `PASS` — no database access or writes were performed; production database timestamp was unchanged.
+- Maintainability: `PASS` — reconciliation orchestration is 96 lines and archive/evidence I/O is isolated in a 37-line helper module; `git diff --check` passed.
+
+## QA-FIX-06 validation
+
+- Human-label import: `PASS` — exactly 25 unique job/competency records validated; raw human labels preserved separately from AI proposal fields.
+- Description completeness: `PASS` — all 19 unique source descriptions found in `postings.csv`; every output row contains the complete original description and a deterministic UTF-8 SHA-256.
+- Evidence quality: `PASS` — original excerpts, cleaned full excerpts, bounded previews, extraction method, source file, and source row are present; 7 display cleanups were applied without changing source text.
+- No-dictionary cases: `PASS` — five complete descriptions retained and human labels remain `ambiguous` with unresolved review flags.
+- Java judgment: `PASS` — raw `required/preferred` label preserved and flagged unresolved; no coercion performed.
+- Focused tests: `PASS` — QA-FIX-06 plus QA-FIX-04 tests passed 8/8.
+- Full regression: `PASS` — 26/26 tests under the approved local Spark environment.
+- Scope safety: `PASS` — production DuckDB, source data, extractor, M6, and M7 were not modified.
+
+## QA-FIX-07 validation
+
+- Java resolution: `PASS` — raw `required/preferred` preserved; resolved to `preferred` only because the full description presents Java as an alternative to Python.
+- Final label preservation: `PASS` — all 25 rows retained; final counts are required 15, preferred 4, incidental 1, ambiguous 5.
+- No-term review: `PASS` — all five complete descriptions inspected and documented with exact quotations; suggestions are coverage prompts only.
+- Evaluation: `PASS` — confusion matrix and supported per-class metrics generated for 17 comparable records; five no-term and three `mentioned` predictions excluded with reasons.
+- Focused tests: `PASS` — QA-FIX-07, QA-FIX-06, and QA-FIX-04 tests passed 10/10.
+- Full regression: `PASS` — 32/32 tests under the approved local Spark environment.
+- Scope safety: `PASS` — production DuckDB, extractor, taxonomy, M6, and M7 were not modified.
+
+## M6-REFINE-01 validation
+
+- Candidate count and IDs: `PASS` — exactly 300 unique stable synthetic candidate IDs.
+- Role-family distribution: `PASS` — data engineering, analytics, software engineering, and cloud/platform engineering each have 75 candidates.
+- Seniority distribution: `PASS` — junior 100, mid 120, senior 80; years remain within each band.
+- Technical bridge: `PASS` — 1,527 relationships across 14 allowed technical competencies; no broad category labels appear.
+- Referential integrity: `PASS` — all candidate-skill relationships reference an existing candidate and taxonomy skill.
+- Determinism: `PASS` — repeated generation is byte-identical with seed `20261012`.
+- M7 compatibility: `PASS` — existing M7 integration and scoring tests pass without M7 changes.
+- Regression: `PASS` — full unittest suite completed 28/28; `git diff --check` passed.
+
+## M7-REFINE-01 validation
+
+- Eligibility filtering: `PASS` — only canonical technical/cloud/data-engineering competency keys from the evidence artifact are matched; broad M4 categories are excluded.
+- Evidence status: `PASS` — no evidence has null overlap and `insufficient_evidence`; one observed requirement is `limited_evidence`; larger observed sets are `sufficient_for_limited_comparison`.
+- Explainability: `PASS` — outputs include required/preferred counts, matched/missing skills, source, extraction version, and an explicit overlap limitation.
+- Ranking: `PASS` — both directions prioritize evidence status, then overlap, observed evidence, preferred matches, and stable identifiers.
+- Evidence inventory: `PASS` — 101 required-evidence jobs, 0 preferred-only jobs, and 1,399 insufficient jobs recorded from the stable artifact.
+- Focused tests: `PASS` — M7 and M6 tests passed 6/6.
+- Full regression: `PASS` — 28/28 tests under the approved local Spark environment.
+- Scope safety: `PASS` — M6, taxonomy, extractor, production DuckDB, and Streamlit were not modified.
+
+## M7-REFINE-02 validation
+
+- Lineage: `PASS` — canonical artifact rebuilt from the unchanged QA-FIX-04 extractor, accepted sample, and original archive descriptions.
+- Canonical schema: `PASS` — `m7-evidence-v2`, extraction `qa-fix-04-v1`, 582 stable relationships, all five classifications, source text, row locations, hashes, rules, and versions.
+- Coverage: `PASS` — 80 required, 7 preferred-only, 44 non-required mention/negated/ambiguous, and 1,369 with no eligible technical evidence across 1,500 jobs.
+- Loader safety: `PASS` — stale schema/version and missing provenance tests fail closed; no fallback to QA-FIX-01.
+- Human review: `PASS` — QA-FIX-07 labels remain separate; 13 comparable disagreements are documented without accuracy overclaiming.
+- Determinism: `PASS` — canonical artifact ordering and repeated hash validation are stable.
+- Focused tests: `PASS` — evidence pipeline and M7 tests passed 8/8.
+- Full regression: `PASS` — 29/29 tests under the approved local Spark environment.
+- Scope safety: `PASS` — production DuckDB, extractor, taxonomy, M6, and M7 scoring semantics were not changed.
+
+## M8-01 validation
+
+- Streamlit dependency: `PASS` — version 1.65.0 imports from the existing TalentGraph virtual environment; no package installation was performed during implementation.
+- Dashboard data loading: `PASS` — 1,500 jobs, 300 synthetic candidates, and `m7-evidence-v2` are validated through M7 APIs.
+- UI behavior tests: `PASS` — coverage counts, empty results, null-company fallback, one-skill limited evidence, and insufficient-score handling covered in focused tests.
+- Startup smoke: `PASS` — elevated headless Streamlit server started on localhost:8501 and stopped cleanly. Restricted-shell retry was socket-permission limited.
+- Browser/screenshot check: `NOT RUN` — no browser automation or screenshot tool was available in the execution environment.
+- Full regression: `PASS` — 37/37 tests under the approved local Spark environment.
+- Scope safety: `PASS` — no M4, M6, M7 scoring, extractor, taxonomy, or production DuckDB changes.
 
 Results must be marked `PASS`, `FAIL`, or `NOT RUN` only after execution.
 
@@ -179,3 +356,115 @@ Prior WSL launch failures are historical and resolved; no further WSL troublesho
 - False-positive safeguards: `PASS` — only canonical skill-key intersections; broad categories are not converted into technical skills.
 - Repeatability: `PASS` — repeated integration ranking results identical.
 - Full M1–M7 regression: `PASS` — 18/18 unittest tests.
+
+## M8-02 validation
+
+- Streamlit import: `PASS` — version 1.65.0 in the approved TalentGraph virtual environment.
+- Streamlit AppTest: `PASS` — five-page navigation configured with unique paths; startup completed with zero exceptions.
+- Dashboard behavior tests: `PASS` — 6/6, including coverage, search/evidence filtering, empty results, missing company fallback, one-skill overlap display, and insufficient-evidence separation.
+- Full regression: `PASS` — unittest discovery completed successfully with Spark tests run under the approved environment and required socket permissions.
+- Headless localhost startup: `PASS` — Streamlit server started on port 8501 and was stopped after smoke validation.
+- Browser screenshots: `NOT RUN` — no browser-level visual inspection was available in this environment.
+- Scope safety: `PASS` — no M4, M6, M7 scoring, extractor, taxonomy, or production DuckDB changes made by M8-02.
+
+## M8-04 validation
+
+- Graph projection: `PASS` — all rendered nodes and edge endpoints are source-backed; only `HAS_SKILL`, required, and preferred evidence edges are emitted.
+- Projection determinism/bounds: `PASS` — repeated projection is identical and the default view is capped at 24 jobs plus candidate/skills.
+- Focused tests: `PASS` — dashboard and graph projection tests passed 9/9.
+- Streamlit AppTest: `PASS` — default network destination loaded with zero exceptions.
+- Dependency audit: `PASS` — NetworkX 3.7 and Streamlit 1.65.0 available; no graph package installed or required.
+- Browser interaction: `NOT RUN` — no browser-level inspection tool was available; SVG interaction was validated by code review and AppTest startup.
+- Full regression: `PASS` — 41/41 unittest tests completed successfully with the approved environment and required Spark socket permissions.
+- Localhost startup: `PASS` — Streamlit server started on port 8503 and stopped after smoke validation.
+
+## M8-MIGRATE-01 validation
+
+- Environment inspection: `PASS` — Node/npm absence, Python environment, installed packages, memory, project configuration, and frontend-directory status recorded.
+- Reusable interface audit: `PASS` — M5 graph, M6 artifact, M7 evidence loader/matching APIs, and current dashboard projection inspected.
+- Scope safety: `PASS` — no packages installed, no code or data artifacts modified, and production DuckDB remained read-only.
+- Deliverable: `PASS` — `docs/M8_MIGRATION_PLAN.md` contains API contracts, graph strategy, frontend structure, staged plan, risks, and next step.
+
+## M8-MIGRATE-02 validation
+
+- FastAPI installation: `PASS` — FastAPI 0.115.6, Pydantic 2.10.6, HTTPX 0.28.1; Uvicorn 0.54.0 retained.
+- Focused API/graph tests: `PASS` — 11/11, covering schemas, pagination, filters, errors, provenance, null insufficient scores, graph edge classes, and database hash behavior.
+- Live API smoke: `PASS` — all eight required endpoints returned successful responses through Uvicorn, including candidate/job matching and graph neighborhood requests.
+- Full regression: `PASS` — 43/43 unittest tests with approved Spark permissions.
+- Database integrity: `PASS` — production DuckDB SHA-256 identical before and after validation; all backend connections are read-only.
+- Streamlit retirement: `PASS` — confirmed dashboard-only files removed and Streamlit uninstalled; M1–M7 and shared graph modules preserved.
+- `git diff --check`: `PASS`.
+
+## M8-MIGRATE-03 validation
+
+- Node/npm: `PASS` — Node.js 22.14.0 and npm 10.9.2 installed user-scoped; no system-wide installation.
+- Dependency lock: `PASS` — `frontend/package-lock.json` generated and `node_modules`/`.next` ignored.
+- TypeScript: `PASS` — `tsc --noEmit` completed successfully.
+- ESLint: `PASS` — frontend source lint completed successfully.
+- Routes: `PARTIAL` — `/network`, `/matches`, and `/insights` served successfully from an earlier completed build; final rebuild after the rewrite change did not complete.
+- Production build: `BLOCKED` — optimized compilation terminated/timed out under WSL memory pressure; approximately 33 MiB free and 854 MiB swap used at the final attempt.
+- Backend regression: `PASS` — M8-MIGRATE-02 backend regression remains 43/43; frontend changes do not alter Python backend code.
+- Browser automation: `NOT RUN` — no browser automation tool was available.
+
+## M8-MIGRATE-03A validation — 2026-10-13
+
+- Resources: 3.5 GiB RAM, 1.0 GiB swap with 914 MiB used; 57 GiB free on `/mnt/c` and 948 GiB free on `/tmp`. No stale TalentGraph Node/Next process was present.
+- Toolchain/command: Node `v22.14.0`, npm `10.9.2`, Next `15.2.4`; `npm run build` from `frontend/` using the pinned lockfile.
+- Fresh `/mnt/c` build: initial telemetry write failed with `EROFS` before compilation (exit 1, 22.43 s, peak RSS 126,512 KiB). With per-process `NEXT_TELEMETRY_DISABLED=1`, compilation passed but the 180-second bound expired during lint/type checking.
+- Frontend-only `/tmp` build: no production data or DuckDB copied; the 240-second bound expired during optimized compilation without OOM evidence or a lingering process.
+- TypeScript and ESLint: `PASS`; Python regression: `ENVIRONMENT-BLOCKED` by the known Spark socket-permission error. Production DuckDB hash observed unchanged as `b2314da8faf5aea8ad8643a1790c96ce7b116bb0ce544473883f45e37f889160`.
+- Cleanup: only disposable `frontend/.next` was removed; no stale process was terminated. M8-MIGRATE-03 remains `IN_PROGRESS`.
+
+## M8-MIGRATE-03B validation — 2026-10-13
+
+- Environment: `free -h` reported 3.8 GiB RAM, `swapon --show` reported a 3.0 GiB `/dev/sdc` swap device with 0 B used, and `nproc` reported 2. Node `v22.14.0`; npm `10.9.2`.
+- Production build: `PASS` — `NEXT_TELEMETRY_DISABLED=1 npm run build` completed on the first controlled attempt; exit 0, elapsed 2:55.42, peak RSS 385,316 KiB (~376 MiB), zero swap operations. Next.js reported successful compilation, lint/type checks, static generation 7/7, and trace collection.
+- TypeScript: `PASS` — `npm run typecheck`.
+- ESLint: `PASS` — `npm run lint`.
+- Frontend routes: `PASS` — production server returned HTTP 200 for `/network`, `/matches`, and `/insights`; `/` returned HTTP 307 with `Location: /network`.
+- FastAPI integration: `PASS` — frontend rewrite returned HTTP 200 and live health, overview, jobs, and candidates payloads. Responses showed 1,500 jobs, 300 synthetic candidates, and read-only database status; no fabricated match result was used.
+- Python regression: `PASS` — elevated approved WSL execution completed 43/43 tests in 42.494 seconds. Spark emitted only non-fatal hostname/native-library/plan-size warnings.
+- DuckDB integrity: `PASS` — SHA-256 remained `b2314da8faf5aea8ad8643a1790c96ce7b116bb0ce544473883f45e37f889160`; no production write was performed.
+- Scope: `PASS` — no dependency install, global WSL change, application architecture change, M1–M7 logic change, or M8-MIGRATE-04/React Flow work.
+
+## M8-MIGRATE-04 validation — 2026-10-13
+
+- Dependency: `PASS` — `@xyflow/react` 12.12.0 installed and locked; no other visualization or UI dependency added.
+- Graph API mapping: `PASS` — typed `GraphNeighborhood`, `GraphNode`, and `GraphEdge` interfaces match the FastAPI schema. Smoke response contained candidate/competency nodes and `HAS_SKILL` edges with all endpoints present in the node set.
+- Graph behavior: `PASS` by code/build validation — deterministic stable-ID columns, bounded limit 35, hops 1–2, lazy expansion, selection highlighting, reset/clear, graph search, fit-to-view, minimap, pan/zoom controls, and candidate/job matches links.
+- Evidence integrity: `PASS` — frontend renders only API-provided nodes and relationships; required and preferred relationships remain distinct, and no unsupported evidence is promoted.
+- Focused backend tests: `PASS` — API and projection tests 11/11.
+- TypeScript/ESLint: `PASS`.
+- Production build: `PASS` — exit 0, elapsed 4:28.06, peak RSS 375,040 KiB, zero swap operations.
+- Full Python regression: `PASS` — 43/43 tests.
+- DuckDB integrity: `PASS` — SHA-256 `b2314da8faf5aea8ad8643a1790c96ce7b116bb0ce544473883f45e37f889160` unchanged.
+- Browser interaction: `NOT RUN` — no browser automation tool was available; actual visual node selection, zoom, expansion, and navigation remain manual follow-up checks.
+
+## M8-MIGRATE-04B validation — 2026-10-13
+
+- Readability/UI: `PASS` by code review and build validation — primary graph labels use dark text on light cards; selected nodes have a clear outline; controls, details, and disabled states retain readable contrast; raw IDs and provenance are hidden under Evidence details.
+- Simplification: `PASS` — compact Explore Network heading, reduced introduction, candidate/search/expand/reset toolbar, no redundant node subtitles, no generic competency description, and no primary-view technical enums.
+- Details: `PASS` — candidates show role family and technical skills; jobs show company and supported required/preferred skills; candidate/job match actions remain available.
+- TypeScript: `PASS`; ESLint: `PASS`; production build: `PASS`.
+- Full regression: `PASS` — 43/43 tests. DuckDB checksum unchanged: `b2314da8faf5aea8ad8643a1790c96ce7b116bb0ce544473883f45e37f889160`.
+- No source data, matching algorithms, dependencies, or system configuration were changed.
+# M8-MIGRATE-04D validation
+
+- Browser automation/Chromium: unavailable in the repository environment; exact manual viewport checks remain required at 1366x768 and 1920x1080 in light and dark modes.
+- Live API response: PASS — candidate `synthetic:candidate:000001` returned valid scored comparisons with matched required skills and no invented score for insufficient evidence.
+- TypeScript: PASS (running with the repository Node toolchain).
+- ESLint: PASS (running with the repository Node toolchain).
+- Production build: PASS — Next.js compiled, linted, type-checked, generated all seven static pages, and exited 0.
+- `git diff --check`: PASS.
+
+## M8-FRONTEND-FINAL-01 validation — 2026-10-13
+
+- TypeScript: PASS — `npm run typecheck` (explicit check after functional code changes).
+- ESLint: PASS — `npm run lint`; no frontend test script exists in `frontend/package.json`.
+- Production build: PASS — final `NEXT_TELEMETRY_DISABLED=1 npm run build` exited 0 after the graph candidate/reset fix and generated all seven static pages.
+- FastAPI: PASS — `PYTHONPATH=src ... python -m unittest tests.test_api`, 9/9 tests. New fixture confirms distinct job/skill counting, required+preferred deduplication, and exclusion of non-scoring evidence.
+- The new endpoint's route registration and handler were checked directly. An additional in-process HTTP smoke attempt stalled in the restricted runner's AnyIO portal and was stopped; this is not an HTTP-level pass.
+- Live read-only API functions: PASS — 1,500 jobs, 300 synthetic candidates, coverage 80/7/44/1,369 (sum 1,500), 1,420 lacking required evidence; top job frequencies SQL 42, Python 35. No invented chart counts.
+- `git diff --check`: PASS. Whitespace scan of new frontend/API source: no trailing whitespace. Production DuckDB SHA-256: `663dbe12cde5231e4d1dc65a880041ecaffe840469a0efcf4a0c8db5202dc397`, unchanged from the pre-task value.
+- Code-level checks: candidate ID is passed from selected graph candidate to `/matches`; graph selection stays bound to the candidate after expanding skill/job roots and Reset returns to that candidate; graph search leaves the candidate selector populated. Graph edges have accessible relationship labels but no floating text; Show N is an auto-width themed button below the graph; match selection/filter fallback and theme-aware scroll containers remain. These are not browser interaction tests.
+- Browser verification: NOT RUN — no Chromium/Playwright executable or browser automation tool was available. Manual checks remain for light/dark visuals at 1366×768 and 1920×1080, persistence/system theme, graph and match interactions, chart tooltips, overflow, focus/contrast, and console/hydration warnings.

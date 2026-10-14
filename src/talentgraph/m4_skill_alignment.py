@@ -66,6 +66,8 @@ def build_skill_models(archive: Path, database: Path, sql_dir: Path | None = Non
         accepted = {r[0] for r in con.execute("SELECT source_job_id FROM fact_job_posting").fetchall()}
         definitions, mappings = _source_data(archive, accepted)
         taxonomy: list[dict[str, Any]] = []
+        # Source labels include occupations and functions; this bridge preserves
+        # them for lineage, while M7 applies stricter technical-evidence rules.
         categories = {"Engineering": "business", "Information Technology": "technical", "Science": "technical", "Research": "technical", "Quality Assurance": "technical", "Accounting/Auditing": "business", "Finance": "business", "Manufacturing": "operations", "Production": "operations", "Supply Chain": "operations", "Distribution": "operations", "Other": "other"}
         for d in definitions:
             key = "skill:source:" + d["skill_abr"].lower()

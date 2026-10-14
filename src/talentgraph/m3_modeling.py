@@ -21,6 +21,8 @@ def build_models(input_parquet: Path, database: Path, sql_dir: Path | None = Non
         parquet_glob = str(input_parquet / "*.parquet").replace("'", "''")
         models = (sql_dir / "m3_models.sql").read_text(encoding="utf-8").replace("{{INPUT_PARQUET}}", parquet_glob)
         con.execute(models)
+        # Compare modeled fact grain with the actual curated input, not a fixed
+        # count that could hide an upstream sample change.
         expected = con.execute("SELECT count(*) FROM read_parquet(?)", [parquet_glob]).fetchone()[0]
         validation_sql = (sql_dir / "m3_validation.sql").read_text(encoding="utf-8").replace("{{EXPECTED_ROWS}}", str(expected))
         validation = [dict(zip(("check_name", "check_value", "status"), row))

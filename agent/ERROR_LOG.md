@@ -1,5 +1,47 @@
 # Error Log
 
+## 2026-10-13 — M8-RELEASE-01 release blockers and verification limits
+
+- Initial audit concern: the source scene was a Phenom website screenshot and permission had not yet been established. Follow-up: the user explicitly confirmed permission for this repository's use of the artwork; this is no longer a release blocker. No separate license document was inspected.
+- A restricted-shell FastAPI test-client request stalled after importing the app; the approved unrestricted retry returned HTTP 200 for all seven representative read-only routes. This was an environment boundary, not an observed API failure.
+- No fresh browser-based light-theme or responsive screenshot review was available in this audit. Clean-machine startup remains unverified because the API depends on local ignored artifacts and a fixed database path, as disclosed publicly.
+
+## 2026-10-13 — M8-DOCS-01 documentation audit
+
+- The restricted-shell regression run had the previously recorded Spark Java socket startup error; an approved unrestricted rerun passed 44/44 tests. No new application defect was found.
+- Source-row provenance remains unresolved: M2 stores a Spark processing index for sampled CSV rows, while the evidence artifact numbers archive CSV records. Their direct equivalence has not been validated.
+- The exact published version of the local source archive and a clean-machine installation remain unverified. Earlier M8 checksum labels remain historically inaccurate; the separate file paths and hashes are documented without rewriting those records.
+
+## 2026-10-13 — M8-POLISH-04 browser verification boundary
+
+- Browser automation is unavailable, so rendered button appearance, pointer/keyboard selection, and viewport scrolling require manual verification. Automated frontend checks are running/completed as recorded in validation.
+
+## 2026-10-13 — M8-POLISH-03 browser verification boundary
+
+- No browser automation executable is available; split selection, responsive stacking, and rendered graph label appearance require manual browser verification.
+
+## 2026-10-13 — M8-POLISH-02 environment note
+
+- Avenir and Lato font files were not present in the local font inventory. The UI uses a Lato-first family with system fallbacks; no unlicensed font was bundled or downloaded.
+
+## 2026-10-13 — M8-MIGRATE-06 release verification
+
+- Browser automation remains unavailable; exact manual browser checks are listed in `agent/VALIDATION.md`.
+- Full regression remains 42/43 in the restricted shell because Spark cannot create a Java network-interface socket. This is the same environment-only blocker recorded previously; no test was weakened or removed.
+
+## 2026-10-13 — M8-MIGRATE-05A theme hydration
+
+- Root cause confirmed: the inline theme initializer mutates the root `data-theme` attribute before hydration. This is intentional for no-flash behavior, but differed from server HTML.
+- Resolved with a narrowly scoped `suppressHydrationWarning` on `<html>`; no broad suppression or client-only rendering was introduced.
+
+## 2026-10-13 — M8-MIGRATE-05 validation environment
+
+- Full Python regression reached 42/43 tests; the existing Spark framing test could not initialize because this restricted shell denies Java network-interface socket creation. No frontend or matching failure was observed.
+
+## 2026-10-13 — M8-MIGRATE-04D browser verification boundary
+
+- Playwright, Puppeteer, and accessible Chromium were not found in the current environment. No dependency or browser binary was installed without approval.
+
 ## 2026-10-12 — QA-FIX-01 extraction
 
 - No extraction logic failures remain after adding `requires` to the explicit requirement context and rerunning the fixture.
@@ -19,6 +61,39 @@
 
 - No unresolved implementation failure. The expanded classifier increases output by retaining non-required mentions and should not be used as a hiring-suitability signal until QA-FIX-03 is human-labeled.
 - No production database, M4 source relationship, M6 candidate artifact, M7 matcher, or original review artifact was modified.
+
+## 2026-10-13 — QA-FIX-05 reconciliation
+
+- The first reconciliation scan exceeded the short restricted-shell command window while parsing the local raw archive; the bounded rerun completed successfully and produced the expected 25-row output.
+- The first restricted-shell full regression attempt reproduced the known Spark Java socket restriction. An approved local rerun passed all 24 tests; no application failure remains.
+
+## 2026-10-13 — QA-FIX-06 human-label import blocked
+
+- Required input `data/processed/qa_fix06_human_labels.csv` was not present, so the 25 user-reviewed classifications could not be imported or validated.
+- No labels, evidence outputs, extractor code, M6/M7 artifacts, or production DuckDB contents were modified. No AI-generated labels were substituted.
+
+## 2026-10-13 — M6-REFINE-01
+
+- No unresolved implementation error. The previous generator sampled broad taxonomy categories; this was replaced by controlled technical role-family templates without changing M7 scoring or production DuckDB.
+
+## 2026-10-13 — M7-REFINE-01
+
+- No unresolved implementation error. Preferred-only evidence is currently zero because the stable processed extraction artifact predates the full QA-FIX-04 five-class output; M7 documents this limitation instead of inferring preferred labels.
+
+## 2026-10-13 — M7-REFINE-02
+
+- Root cause of low coverage was stale QA-FIX-01 evidence and legacy requirement-context promotion, not a missing source-description scan. The canonical QA-FIX-04 rebuild corrected lineage without changing extraction rules or taxonomy.
+- No unresolved implementation error. The remaining 1,369-job no-eligible-evidence group includes taxonomy coverage gaps and descriptions without controlled dictionary evidence; it is not treated as proof of no skills.
+
+## 2026-10-13 — M8-01 Streamlit dashboard blocked
+
+- Streamlit is unavailable in the approved environment (`ModuleNotFoundError: No module named 'streamlit'`). No existing Streamlit configuration or app was found.
+- Installation was not attempted because the task prohibits package installation without explicit approval. Dashboard implementation and UI tests were intentionally not started.
+
+## 2026-10-13 — M8-01 resumed
+
+- Prior Streamlit blocker resolved: approved environment provides Streamlit 1.65.0.
+- Restricted-shell startup smoke was blocked by socket permissions; the approved elevated local smoke test started localhost:8501 successfully. No unresolved application error remains.
 
 ## 2026-10-12 — Environment inspection limitations
 
@@ -129,3 +204,50 @@ Interpret disk values in bytes. `HypervisorPresent` confirms a running hyperviso
 
 - No implementation errors remain. Matching uses only explicit canonical skill overlap and does not infer suitability, hiring probability, experience, or location fit.
 - Some generated candidates receive zero coverage for many jobs because M6 intentionally samples the full taxonomy while jobs use explicit source skill categories; this is retained as an honest scored outcome, not corrected by inference.
+
+## 2026-10-13 — M8-02 dashboard validation
+
+- Initial AppTest rejected the Data Quality navigation icon because `✓` is not a valid Streamlit emoji. Replaced it with valid `📊` and assigned unique URL paths to all callable pages. AppTest then completed with zero exceptions; no unresolved dashboard error remains.
+- The first unprivileged full regression attempt was blocked by Spark socket permissions. The same suite completed successfully under the required elevated local execution context; no code failure was observed.
+
+## 2026-10-13 — M8-04 graph technology decision
+
+- No approved interactive graph package was installed. Plotly, PyVis, and `streamlit-agraph` were unavailable. A lightweight dependency-free SVG component was selected for pan, zoom, and highlighting; Streamlit controls handle deterministic node inspection and comparison context.
+
+## 2026-10-13 — M8-MIGRATE-01 environment blockers
+
+- Node.js/npm are not installed or available on PATH, so Next.js/TypeScript readiness cannot be verified yet.
+- FastAPI is not installed in the approved Python environment. Uvicorn is available, but it is not sufficient to implement the backend.
+- These are documented migration prerequisites. No installation was attempted because this task prohibits package changes.
+
+## 2026-10-13 — M8-MIGRATE-02 resolved environment issue
+
+- FastAPI TestClient could not run initially because HTTPX was absent; HTTPX 0.28.1 was installed as the authorized FastAPI test dependency. Direct route tests and live Uvicorn HTTP requests then passed.
+- Installing FastAPI temporarily exposed a Starlette version conflict with Streamlit. Streamlit was subsequently retired and uninstalled as authorized; no backend dependency conflict remains.
+
+## 2026-10-13 — M8-MIGRATE-03 build blocker
+
+- Next.js typecheck and ESLint pass, but `next build` did not complete on the WSL environment. During the final attempt, available memory was approximately 33 MiB and swap usage was approximately 854 MiB. A native `/tmp` build attempt also exceeded its bounded timeout.
+- The frontend foundation and lockfile are preserved; production build verification remains the only unresolved acceptance item. No further dependency installation or architecture change was attempted.
+
+## 2026-10-13 — M8-MIGRATE-03A controlled build diagnosis
+
+- Next telemetry initially attempted to write `/home/developer/.config/nextjs-nodejs/config.json.*`; the restricted runner returned `EROFS`. A per-process `NEXT_TELEMETRY_DISABLED=1` retry compiled on `/mnt/c` but timed out during lint/type checking at 180 seconds.
+- A frontend-only `/tmp` build copy timed out at 240 seconds during optimized compilation. No run emitted OOM/ENOMEM evidence, no observed OOM kill occurred, and no Node/Next process remained. Resources were 3.5 GiB RAM and 1 GiB swap, nearly full at inspection. Any WSL adjustment requires user approval; task remains `IN_PROGRESS`.
+
+## 2026-10-13 — M8-MIGRATE-03B restricted socket check
+
+- Unprivileged local server startup and curl checks returned `EPERM`/HTTP 000 because the restricted runner disallows socket bind/connect operations. This was an execution-environment limitation, not a Next.js or FastAPI response.
+- The same production frontend/backend smoke checks were rerun in the approved elevated local WSL context and passed. No unresolved application error remains.
+
+## 2026-10-13 — M8-MIGRATE-04 browser automation unavailable
+
+- No browser automation tool is available in this environment, so actual React Flow click, drag, zoom, expansion, and matches-navigation behavior could not be independently exercised. TypeScript, ESLint, production build, API smoke, focused graph tests, and full regression all passed.
+
+## 2026-10-13 — M8-FRONTEND-FINAL-01 validation limits
+
+- Light-mode mismatch was traced to default dark comparison tokens and hardcoded pale text, not the hydration-safe root theme script. Styles were consolidated; actual browser rendering and hydration-console behavior remain unverified without browser automation.
+- Discover Matches previously ignored the `job` query parameter emitted by a graph job-node action. That misleading action was removed; candidate-context navigation remains.
+- Explore Network previously bound its candidate selector and Reset to the current graph root, which becomes a skill/job after expansion. Candidate identity is now tracked separately; browser interaction remains unverified.
+- An optional in-process `TestClient` HTTP smoke call stalled in the restricted runner's AnyIO portal and was stopped; the diagnostic timed out at 15 seconds with the route coroutine waiting in the portal. It was not retained as a hanging regression test. Direct route/unit tests and route registration checks pass; live HTTP for the new endpoint remains unverified here.
+- No unresolved direct-unit/build failure or production-data write was observed. Browser-only interaction and viewport checks remain manual.

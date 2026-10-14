@@ -59,6 +59,8 @@ def classify_taxonomy(rows: list[tuple[str, str, str]]) -> list[dict[str, str]]:
 
 
 def _classify_context(text: str, start: int, end: int) -> str:
+    # Keep negation and uncertainty ahead of positive requirement language:
+    # a phrase can contain both, but should not become a scored requirement.
     left_boundary = max([text.rfind(mark, 0, start) for mark in ".;!?\n"])
     right_candidates = [text.find(mark, end) for mark in ".;!?\n" if text.find(mark, end) >= 0]
     right_boundary = min(right_candidates) if right_candidates else len(text)

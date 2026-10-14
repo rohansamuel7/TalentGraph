@@ -1,5 +1,9 @@
 # Architecture
 
+**Current implementation (M8):** the local pipeline prepares sampled data with Python and PySpark, writes curated Parquet, and models jobs and taxonomy in DuckDB. Classified job evidence and fictional candidates are separate processed JSON artifacts. FastAPI loads those artifacts and DuckDB read-only; Next.js serves Explore Network, Discover Matches, and Insights. React Flow renders bounded graph neighborhoods. See [Data pipeline](DATA_PIPELINE.md) for the implemented flow.
+
+The diagram and Streamlit/Airflow description below record the original design direction. Streamlit was retired during M8 migration. Production Airflow scheduling has not been implemented.
+
 ```text
 Kaggle job data + synthetic candidates
         -> Airflow orchestration

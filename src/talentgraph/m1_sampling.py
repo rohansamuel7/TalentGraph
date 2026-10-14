@@ -151,11 +151,14 @@ def sample_postings(archive: Path, output_csv: Path, metadata_json: Path,
         except (ValueError, OverflowError, OSError):
             rejects.append((row_number, "invalid_listed_time"))
             continue
+        # Resolve duplicate IDs before ranking, so only one chosen version of
+        # each job can enter the sample for this fixed source archive.
         current = winners.get(job_id)
         candidate = (listed_value, row_number)
         if current is None or candidate > current:
             winners[job_id] = candidate
 
+    # Keep only the lowest hash ranks in memory, independent of CSV ordering.
     heap: list[tuple[int, str, int]] = []
     for job_id, (_, row_number) in winners.items():
         rank = int.from_bytes(hashlib.sha256(job_id.encode("utf-8")).digest(), "big")

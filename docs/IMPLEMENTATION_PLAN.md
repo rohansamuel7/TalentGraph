@@ -1,5 +1,7 @@
 # Implementation Plan
 
+**Historical initial plan.** M8 evolved into a FastAPI/Next.js prototype, and the planned production Airflow schedule is not implemented. See [Engineering overview](PROJECT_DOCUMENTATION.md) and `agent/TASKS.md` for the current state.
+
 | Milestone | Deliverable | Dependencies | Estimate |
 |---|---|---|---:|
 | M0 | Environment, repository layout, conventions | None | 1–2 h |

@@ -1,0 +1,7 @@
+# Direct Python dependencies for the local pipeline, graph, and API.
+# Backend pins, including its HTTP test dependency, remain in one file.
+-r requirements-backend.txt
+pyspark==3.5.6
+duckdb==1.5.6
+networkx==3.7
+rapidfuzz==3.14.6

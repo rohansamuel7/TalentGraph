@@ -33,6 +33,8 @@ def build_graph(database: Path) -> nx.DiGraph:
             graph.add_node(job_node, node_type="Job", job_key=job, title=title, source_file=source_file, source_row_number=row_number, ingestion_run_id=run_id, raw_record_hash=record_hash)
             graph.add_edge(job_node, _node("Company", company), relationship="POSTED_BY")
             graph.add_edge(job_node, _node("Location", location), relationship="LOCATED_IN")
+        # M5 reflects the legacy source mapping. The current API graph uses
+        # classified evidence before presenting job skills as requirements.
         for relationship_key, job, skill, abbreviation, method, confidence, source_file, source_definition, version in con.execute("SELECT relationship_key, job_key, skill_key, source_skill_abbreviation, match_method, confidence, source_mapping_file, source_definition_file, taxonomy_version FROM bridge_job_skill ORDER BY relationship_key").fetchall():
             graph.add_edge(_node("Job", job), _node("Skill", skill), relationship="REQUIRES_SKILL", relationship_key=relationship_key, source_skill_abbreviation=abbreviation, match_method=method, confidence=confidence, source_mapping_file=source_file, source_definition_file=source_definition, taxonomy_version=version)
     finally:

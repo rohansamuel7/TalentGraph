@@ -35,6 +35,8 @@ secrets.yaml
 *.sqlite
 *.sqlite3
 *.db-journal
+*.duckdb
+*.duckdb.wal
 
 # Logs and runtime files
 *.log
@@ -59,6 +61,10 @@ artifacts/
 # Build and packaging output
 build/
 dist/
+.tools/
+frontend/node_modules/
+frontend/.next/
+frontend/*.tsbuildinfo
 *.egg-info/
 .eggs/
 
@@ -69,3 +75,6 @@ dist/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Private project notes
+docs/INTERVIEW_GUIDE.md

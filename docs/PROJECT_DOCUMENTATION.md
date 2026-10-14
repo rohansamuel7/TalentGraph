@@ -32,15 +32,33 @@ These boundaries keep source processing separate from application requests. The 
 
 ## Engineering challenges
 
-| Challenge | Impact | Investigation | Resolution / current status |
-|---|---|---|---|
-| CSV framing in M2 | Spark initially reported 1,516 records and 32 malformed entries from a 1,500-row sample. | The parser split valid multiline records containing legacy quoting. | Python's CSV reader frames the bounded input before Spark applies its explicit schema; the final recorded run accepted 1,500 and rejected zero. |
-| Spark execution in restricted shells | Some test attempts could not start Java sockets; a separate Python worker version mismatch affected one run. | Error logs separated socket denial from the driver/worker interpreter mismatch. | Worker interpreter is pinned to the approved virtualenv in code. The restricted-shell socket limitation remains an environment constraint, not evidence of a failed production pipeline. |
-| Broad M4 skills and sparse technical evidence | Occupational categories could mislead matching; few descriptions supply usable required technical evidence. | QA reviews compared taxonomy categories, source descriptions, and extractor output. | M7 excludes broad categories, retains required/preferred/other classifications, and reports insufficient evidence. Current API coverage is 80 required, 7 preferred-only, 44 non-required-only, and 1,369 without eligible technical evidence. Extraction quality remains limited. |
-| Source-row traceability | Stored row numbers may be mistaken for stable source locations. | M2 assigns a Spark processing row index after framing, while evidence extraction enumerates archive CSV records. | Job ID, source file, and description hash aid tracing, but equivalence of all stored row numbers to archive physical rows has not been established. See [limitations](LIMITATIONS_AND_FUTURE_WORK.md). |
-| DuckDB checksum labels | Earlier M8 notes called `b2314da8…` a production hash. | M8-INTEGRITY-01 hashed both known paths and compared read-only tables. | That hash belongs to `data/processed/talentgraph.duckdb`; production hashes to `663dbe12…`. The five base tables have matching logical schemas and rows. The record was mislabeled; no corruption was established. |
-| WSL frontend builds and `.next` state | Early builds timed out under memory pressure; simultaneous development and build use of `.next` risks conflict. | Resource logs and build attempts isolated memory and telemetry constraints; the validation record checked for an active dev server before builds. | A later build passed with more visible RAM/swap. Run dev and production builds separately; a concurrent `.next` failure is a precaution, not a documented data defect. |
-| Theme hydration and graph readability | Theme initialization produced a root attribute warning; graph controls needed clearer states. | M8 records traced the warning to pre-hydration theme initialization and reviewed graph interactions. | Root warning suppression was scoped to `<html>`; graph controls and contrast were improved. Browser-level visual checks remain manual. |
+### 1. CSV framing in M2
+
+**Problem:** Spark initially counted 1,516 records and 32 malformed entries in a 1,500-posting sample. **Why:** Some descriptions contained line breaks and older quoting patterns that Spark split into separate records. **Solution / status:** Python's CSV reader first identifies each complete record; Spark then applies the expected column types (the schema). The final recorded run accepted 1,500 and rejected zero. **Lesson learned:** Check record boundaries before trusting row counts or applying a schema.
+
+### 2. Spark execution in restricted shells
+
+**Problem:** Some test runs could not start Spark, and one separate run used different Python versions for Spark's main process and its workers (the processes that run tasks). **Why:** The restricted shell denied Java socket creation; the workers also inherited a different Python interpreter. **Solution / status:** The code points the main process and workers to the approved virtual environment. Restricted-shell socket failures remain an environment constraint. **Lesson learned:** Diagnose runtime permissions and interpreter versions separately from data-processing errors.
+
+### 3. Broad M4 skill categories and sparse technical evidence
+
+**Problem:** M4 includes broad occupational categories that could look like technical requirements. Few descriptions provide usable required technical skills. **Why:** Source categories describe kinds of work, while job descriptions vary in how clearly they state specific requirements. **Solution / status:** M7 uses classified description evidence for technical comparisons and keeps broad M4 categories for source tracing. Of 1,500 postings, 80 have required technical evidence, 7 have preferred-only evidence, 44 have non-required-only evidence, and 1,369 have no eligible technical evidence. Extraction remains imperfect. **Lesson learned:** Keep a source category's original meaning; do not promote it to a verified requirement without evidence.
+
+### 4. Source-row traceability
+
+**Problem:** A stored row number may appear to identify the same source record across outputs. **Why:** M2 numbers records during Spark processing, while the evidence extractor numbers logical CSV records in the archive. **Solution / status:** Job IDs, source names, and description hashes help trace records, but direct row-number equivalence remains unverified. **Lesson learned:** Provenance (where a record came from) needs identifiers that can be checked across processing stages. See [limitations](LIMITATIONS_AND_FUTURE_WORK.md).
+
+### 5. DuckDB checksum labels
+
+**Problem:** Earlier M8 notes labeled `b2314da8…` as the production database hash. **Why:** That hash belongs to the repository database at `data/processed/talentgraph.duckdb`; the production database hashes to `663dbe12…`. A checksum is a file hash used to identify exact bytes. **Solution / status:** A read-only check found matching schemas and rows in all five base tables, despite different file hashes. The earlier label was wrong; the check found no logical mismatch in those tables. **Lesson learned:** Record the full file path beside each checksum, and compare table contents when byte-level hashes differ.
+
+### 6. WSL frontend builds and `.next` state
+
+**Problem:** Early frontend builds timed out, and a development server and production build could interfere if both use Next.js's `.next` build directory. **Why:** WSL had limited memory during the early builds; the shared directory can also hold state from another process. **Solution / status:** A later production build passed with more available RAM and swap. Running development and production builds separately avoids the potential directory conflict; a concurrent `.next` failure was not documented. **Lesson learned:** Check available resources and running processes when a build fails.
+
+### 7. Theme hydration and graph readability
+
+**Problem:** Theme setup caused a root-element warning, and graph controls were hard to read in some states. **Why:** The theme was set before React attached to the page (hydration), so the root HTML attribute could differ; some controls also needed clearer contrast. **Solution / status:** Warning suppression was limited to `<html>`, and graph controls and contrast were improved. Browser visual checks remain manual. **Lesson learned:** Keep theme setup predictable and verify visual changes in the browser.
 
 ## Current outcome
 

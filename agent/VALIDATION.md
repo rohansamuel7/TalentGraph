@@ -5,6 +5,8 @@
 - Publication target: `main` → `https://github.com/rohansamuel7/TalentGraph.git` (`origin`).
 - Owner browser confirmation: light mode and a narrow viewport were checked. Light mode looks somewhat unusual to the owner, who accepted that appearance because dark mode is intended for use. This is an accepted presentation caveat, not an independent visual pass by the agent.
 - Staging scope: only public source, docs, requirements, frontend lockfile, screenshots, and background are intended. Final staged path, content, README-link, and whitespace checks are required before commit.
+- Final release review: 80 committed files; no excluded paths, obvious secret patterns, or nonstandard Git modes; 11 local README links resolve; all four screenshots and the background are included; `git diff --cached --check` passed before commit. No private guide, data, databases, dependencies, build output, or local Node binaries were committed.
+- Publication: `git -c credential.helper='!gh auth git-credential' push origin main` succeeded without force. `git ls-remote origin refs/heads/main` returned `78f9eda0ddf2184bc16eaaa977f21d3b4d381d81`, matching local HEAD at verification.
 
 ## M8-RELEASE-01 validation — 2026-10-13
 

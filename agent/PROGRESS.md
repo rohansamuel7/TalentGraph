@@ -5,6 +5,7 @@
 - Confirmed `main` and the intended GitHub `origin`; staged the reviewed public source, docs, requirements, frontend lockfile, screenshots, and background while leaving ignored private/data/build material out.
 - The owner confirmed checking light mode and a narrow viewport. They observed that light mode looks somewhat unusual but accept it because dark mode is their intended usage. This caveat remains visible rather than being described as a visual pass.
 - Fixed one extra blank line at the end of `api_models.py` found by `git diff --cached --check`; final staged security and content review follows before publication.
+- Published release commit `78f9eda0ddf2184bc16eaaa977f21d3b4d381d81` to `origin/main` with the owner's GitHub username and no-reply email. The first push lacked HTTPS credentials; an authenticated GitHub CLI session enabled a command-scoped credential helper, and the non-force retry succeeded. Remote `main` was verified at the release hash.
 
 ## 2026-10-13 — M8-RELEASE-01 GitHub readiness audit
 

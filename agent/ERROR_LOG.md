@@ -1,5 +1,11 @@
 # Error Log
 
+## 2026-10-13 — M8-RELEASE-02 GitHub authentication boundary
+
+- The reviewed local release commit was created with the owner's GitHub username and no-reply email after correcting an automatically generated laptop-hostname identity on the unpublished commit.
+- `git push origin main` did not publish: HTTPS Git reported that it could not read a username. The GitHub CLI is absent and no SSH authentication agent is available. The remote remained at its prior commit; GitHub connection or local authentication is required before retrying the push.
+- Resolved in follow-up: GitHub CLI was installed and authenticated in WSL; the unrestricted `gh auth status` check passed. A command-scoped CLI credential helper allowed the non-force push, and remote `main` matched the release commit afterward. The earlier failure was an authentication boundary, not a repository-content failure.
+
 ## 2026-10-13 — M8-RELEASE-01 release blockers and verification limits
 
 - Initial audit concern: the source scene was a Phenom website screenshot and permission had not yet been established. Follow-up: the user explicitly confirmed permission for this repository's use of the artwork; this is no longer a release blocker. No separate license document was inspected.
